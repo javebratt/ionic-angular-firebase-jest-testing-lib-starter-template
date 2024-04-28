@@ -1,18 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { render } from '@testing-library/angular';
 import { HomePage } from './home.page';
 
 describe('HomePage', () => {
-  let component: HomePage;
-  let fixture: ComponentFixture<HomePage>;
+  async function setup() {
+    const { fixture, container } = await render(HomePage, {
+      imports: [IonApp, IonRouterOutlet],
+    });
+    return {
+      fixture,
+      container,
+      component: fixture.debugElement.componentInstance as HomePage,
+    };
+  }
 
-  beforeEach(async () => {
-    fixture = TestBed.createComponent(HomePage);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  it('creates the component', async () => {
+    const { component } = await setup();
 
-  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

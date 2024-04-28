@@ -1,16 +1,23 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { render, screen } from '@testing-library/angular';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
-  it('should create the app', () => {
-    TestBed.overrideComponent(AppComponent, {
-      add: {
-        imports: [RouterTestingModule]
-      }
+  async function setup() {
+    const { fixture, container } = await render(AppComponent, {
+      imports: [IonApp, IonRouterOutlet],
     });
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    return {
+      fixture,
+      container,
+      component: fixture.debugElement.componentInstance as AppComponent,
+    };
+  }
+
+  it('creates the component', async () => {
+    const { component } = await setup();
+    const testTitle = screen.getByTestId('test-title');
+    expect(testTitle.textContent).toContain('Test Title');
+    expect(component).toBeTruthy();
   });
 });
